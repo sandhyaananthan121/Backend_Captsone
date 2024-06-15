@@ -8,6 +8,7 @@ from .forms import BookingForm
 import requests, json
 
 import environ
+from security import safe_requests
 
 env = environ.Env()
 environ.Env.read_env()
@@ -39,14 +40,14 @@ def about(request):
 def menu(request):
     url = f"http://127.0.0.1:8000{reverse('api:menu')}"
     headers = get_auth_header()
-    response = requests.get(url, headers=headers)
+    response = safe_requests.get(url, headers=headers)
     return render(request, 'restaurant/menu.html', context={'menu_items': json.loads(response.text)})
 
 
 def menu_item(request, pk):
     url = f"http://127.0.0.1:8000{reverse('api:menu-detail', kwargs={'pk': pk})}"
     headers = get_auth_header()
-    response = requests.get(url, headers=headers)
+    response = safe_requests.get(url, headers=headers)
     return render(request, 'restaurant/menu_item.html', context={'menu_item': json.loads(response.text)})
 
 
@@ -89,5 +90,5 @@ def bookings(request):
         date = request.GET.get('date')
     url = f"http://127.0.0.1:8000{reverse('api:bookings')}?date={date}"
     headers = get_auth_header()
-    response = requests.get(url, headers=headers)
+    response = safe_requests.get(url, headers=headers)
     return render(request, 'restaurant/bookings.html', context={'bookings': response.text})
