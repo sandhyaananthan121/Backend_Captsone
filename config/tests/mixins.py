@@ -1,21 +1,20 @@
 from django.test import Client
 from restaurant.models import Booking, Menu
-
-from random import randint
+import secrets
 
 
 BOOKINGS = {
     1: {'name': 'Vill'},
-    2: {'name': 'Jani', 'no_og_guests': randint(1, 11)},
-    3: {'name': 'Niilo', 'no_og_guests': randint(1, 11)},
-    4: {'name': 'Markus', 'no_og_guests': randint(1, 11)},
+    2: {'name': 'Jani', 'no_og_guests': secrets.SystemRandom().randint(1, 11)},
+    3: {'name': 'Niilo', 'no_og_guests': secrets.SystemRandom().randint(1, 11)},
+    4: {'name': 'Markus', 'no_og_guests': secrets.SystemRandom().randint(1, 11)},
 }
 
 MENU_ITEMS = {
     1: {'title': 'ApplePie', 'price': 13.78},
-    2: {'title': 'VanillaLatte', 'price': 3.99, 'inventory': randint(0, 11)},
-    3: {'title': 'Icecream', 'price': 5.00, 'inventory': randint(0, 11)},
-    4: {'title': 'IrishCoffe', 'price': 7.89, 'inventory': randint(0, 11)},
+    2: {'title': 'VanillaLatte', 'price': 3.99, 'inventory': secrets.SystemRandom().randint(0, 11)},
+    3: {'title': 'Icecream', 'price': 5.00, 'inventory': secrets.SystemRandom().randint(0, 11)},
+    4: {'title': 'IrishCoffe', 'price': 7.89, 'inventory': secrets.SystemRandom().randint(0, 11)},
 }
 
 
