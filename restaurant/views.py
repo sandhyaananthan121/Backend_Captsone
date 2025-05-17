@@ -19,7 +19,7 @@ def get_token():
         'username': env('USERNAME'),
         'password': env('PASSWORD')
     }
-    response = requests.post(url, data=data)
+    response = requests.post(url, data=data, timeout=60)
     response_dict = json.loads(response.text)
     return response_dict.get('access')
 
@@ -39,14 +39,14 @@ def about(request):
 def menu(request):
     url = f"http://127.0.0.1:8000{reverse('api:menu')}"
     headers = get_auth_header()
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, timeout=60)
     return render(request, 'restaurant/menu.html', context={'menu_items': json.loads(response.text)})
 
 
 def menu_item(request, pk):
     url = f"http://127.0.0.1:8000{reverse('api:menu-detail', kwargs={'pk': pk})}"
     headers = get_auth_header()
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, timeout=60)
     return render(request, 'restaurant/menu_item.html', context={'menu_item': json.loads(response.text)})
 
 
@@ -74,7 +74,7 @@ class Book(View):
             data = self.get_data_from_form(form)
             headers = get_auth_header()
             url = f"http://127.0.0.1:8000{reverse('api:bookings')}"
-            response = requests.post(url, data=data, headers=headers)
+            response = requests.post(url, data=data, headers=headers, timeout=60)
             if response.status_code == 201:
                 context = {'form': BookingForm(), 'token': token}
                 return render(request, 'restaurant/book.html', context)
@@ -89,5 +89,5 @@ def bookings(request):
         date = request.GET.get('date')
     url = f"http://127.0.0.1:8000{reverse('api:bookings')}?date={date}"
     headers = get_auth_header()
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, timeout=60)
     return render(request, 'restaurant/bookings.html', context={'bookings': response.text})
